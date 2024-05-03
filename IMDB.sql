@@ -1,0 +1,43 @@
+use IMDB;
+describe imdb_stage;
+
+CREATE TABLE IF NOT EXISTS `IMDB`.`filmes` (
+  `ID_IMDB` INT NOT NULL AUTO_INCREMENT,
+  `Titulo` VARCHAR(100) NULL DEFAULT NULL,
+  `Ano` INT NULL DEFAULT NULL,
+  `Avaliacao` DOUBLE NULL DEFAULT NULL,
+  `Class_indi` VARCHAR(45) NULL DEFAULT NULL,
+  `Duracao` VARCHAR(45) NULL DEFAULT NULL,
+  `Slogan` VARCHAR(100) NULL DEFAULT NULL,
+  `Orçamento` VARCHAR(45) NULL,
+  `Faturamento` VARCHAR(45) NULL,
+  PRIMARY KEY (`ID_IMDB`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4;
+
+CREATE TABLE IF NOT EXISTS `IMDB`.`profissionais` (
+  `ID_Profissionais` INT NOT NULL,
+  `ID_IMDB` INT NOT NULL,
+  `Elenco` VARCHAR(150) NULL DEFAULT NULL,
+  `Diretores` VARCHAR(100) NULL DEFAULT NULL,
+  `Escritores` VARCHAR(100) NULL DEFAULT NULL,
+  PRIMARY KEY (`ID_Profissionais`),
+  INDEX `ID_imdb_idx` (`ID_IMDB` ASC) VISIBLE,
+  CONSTRAINT `ID_imdb`
+    FOREIGN KEY (`ID_IMDB`)
+    REFERENCES `IMDB`.`filmes` (`ID_IMDB`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4;
+
+CREATE TABLE IF NOT EXISTS `IMDB`.`genero` (
+  `idgenero` INT NOT NULL,
+  `id_fk_imdb` INT NOT NULL,
+  `genero` VARCHAR(100) NULL,
+  PRIMARY KEY (`idgenero`),
+  INDEX `id_imdb_idx` (`id_fk_imdb` ASC) VISIBLE,
+  CONSTRAINT `id_fk_imdb`
+    FOREIGN KEY (`id_fk_imdb`)
+    REFERENCES `IMDB`.`filmes` (`ID_IMDB`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
