@@ -29,8 +29,13 @@ CREATE TABLE IF NOT EXISTS `IMDB`.`profissionais` (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4;
 
+<<<<<<< HEAD
 CREATE TABLE IF NOT EXISTS `IMDB`.`generos` (
   `idgenero` INT NOT NULL auto_increment,
+=======
+CREATE TABLE IF NOT EXISTS `IMDB`.`genero` (
+  `idgenero` INT NOT NULL,
+>>>>>>> 2f3775a1609395ac63ad6dc191711368ef761062
   `id_imdb` INT NOT NULL,
   `genero` VARCHAR(100) NULL,
   PRIMARY KEY (`idgenero`),
@@ -40,6 +45,7 @@ CREATE TABLE IF NOT EXISTS `IMDB`.`generos` (
     REFERENCES `IMDB`.`filmes` (`ID_IMDB`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
+<<<<<<< HEAD
 ENGINE = InnoDB;
 
 INSERT INTO filmes (Titulo, Ano, Avaliacao, Class_indi, Duracao, Slogan, Orcamento, Faturamento)
@@ -73,3 +79,6 @@ FROM filmes;
 
 select id_imdb from generos;
 
+=======
+ENGINE = InnoDB;
+>>>>>>> 2f3775a1609395ac63ad6dc191711368ef761062
