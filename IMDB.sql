@@ -31,12 +31,12 @@ DEFAULT CHARACTER SET = utf8mb4;
 
 CREATE TABLE IF NOT EXISTS `IMDB`.`genero` (
   `idgenero` INT NOT NULL,
-  `id_fk_imdb` INT NOT NULL,
+  `id_imdb` INT NOT NULL,
   `genero` VARCHAR(100) NULL,
   PRIMARY KEY (`idgenero`),
-  INDEX `id_imdb_idx` (`id_fk_imdb` ASC) VISIBLE,
-  CONSTRAINT `id_fk_imdb`
-    FOREIGN KEY (`id_fk_imdb`)
+  INDEX `id_imdb_idx` (`id_imdb` ASC) VISIBLE,
+  CONSTRAINT `id_imdb_`
+    FOREIGN KEY (`id_imdb`)
     REFERENCES `IMDB`.`filmes` (`ID_IMDB`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
