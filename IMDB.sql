@@ -1,84 +1,116 @@
-use IMDB;
-describe imdb_stage;
+use imdb;
 
-CREATE TABLE IF NOT EXISTS `IMDB`.`filmes` (
-  `ID_IMDB` INT NOT NULL AUTO_INCREMENT,
-  `Titulo` VARCHAR(100) NULL DEFAULT NULL,
-  `Ano` INT NULL DEFAULT NULL,
-  `Avaliacao` DOUBLE NULL DEFAULT NULL,
-  `Class_indi` VARCHAR(45) NULL DEFAULT NULL,
-  `Duracao` VARCHAR(45) NULL DEFAULT NULL,
-  `Slogan` VARCHAR(350) NULL DEFAULT NULL,
-  `Orcamento` VARCHAR(45) NULL,
-  `Faturamento` VARCHAR(45) NULL,
-  PRIMARY KEY (`ID_IMDB`))
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb4;
+select * from tb_filme;
 
-CREATE TABLE IF NOT EXISTS `IMDB`.`profissionais` (
-  `ID_Profissionais` INT NOT NULL auto_increment,
-  `ID_IMDB` INT NOT NULL,
-  `Elenco` VARCHAR(350) NULL DEFAULT NULL,
-  `Diretores` VARCHAR(100) NULL DEFAULT NULL,
-  `Escritores` VARCHAR(100) NULL DEFAULT NULL,
-  PRIMARY KEY (`ID_Profissionais`),
-  INDEX `ID_imdb_idx` (`ID_IMDB` ASC) VISIBLE,
-  CONSTRAINT `ID_imdb`
-    FOREIGN KEY (`ID_IMDB`)
-    REFERENCES `IMDB`.`filmes` (`ID_IMDB`))
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb4;
+CREATE TABLE IF NOT EXISTS `imdb`.`tb_filme` (
+  `id_filme` INT NOT NULL AUTO_INCREMENT,
+  `nome_titulo_filme` VARCHAR(150) NOT NULL,
+  `ano_lancamento_filme` VARCHAR(4) NOT NULL,
+  `indicado_posicao_ranking_filme` INT NOT NULL,
+  `classificacao_indicativa` VARCHAR(45) NOT NULL,
+  `duracao` VARCHAR(45) NOT NULL,
+  `orcamento` VARCHAR(45) NOT NULL,
+  `bilheteria` VARCHAR(45) NOT NULL,
+  `slogan` VARCHAR(320) NOT NULL,
+  PRIMARY KEY (`id_filme`))
+ENGINE = InnoDB;
 
-<<<<<<< HEAD
-CREATE TABLE IF NOT EXISTS `IMDB`.`generos` (
-  `idgenero` INT NOT NULL auto_increment,
-=======
-CREATE TABLE IF NOT EXISTS `IMDB`.`genero` (
-  `idgenero` INT NOT NULL,
->>>>>>> 2f3775a1609395ac63ad6dc191711368ef761062
-  `id_imdb` INT NOT NULL,
-  `genero` VARCHAR(100) NULL,
-  PRIMARY KEY (`idgenero`),
-  INDEX `id_imdb_idx` (`id_imdb` ASC) VISIBLE,
-  CONSTRAINT `id_imdb_`
-    FOREIGN KEY (`id_imdb`)
-    REFERENCES `IMDB`.`filmes` (`ID_IMDB`)
+CREATE TABLE IF NOT EXISTS `imdb`.`tb_filme_escritores` (
+  `tb_filme_id_filme` INT NOT NULL,
+  `tb_escritores_id_escritores` INT NOT NULL,
+  PRIMARY KEY (`tb_filme_id_filme`, `tb_escritores_id_escritores`),
+  INDEX `fk_tb_filme_has_tb_escritores_tb_escritores1_idx` (`tb_escritores_id_escritores` ASC) VISIBLE,
+  INDEX `fk_tb_filme_has_tb_escritores_tb_filme1_idx` (`tb_filme_id_filme` ASC) VISIBLE,
+  CONSTRAINT `fk_tb_escritores_filme`
+    FOREIGN KEY (`tb_filme_id_filme`)
+    REFERENCES `imdb`.`tb_filme` (`id_filme`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_tb_filme_escritores`
+    FOREIGN KEY (`tb_escritores_id_escritores`)
+    REFERENCES `imdb`.`tb_escritores` (`id_escritores`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-<<<<<<< HEAD
 ENGINE = InnoDB;
 
-INSERT INTO filmes (Titulo, Ano, Avaliacao, Class_indi, Duracao, Slogan, Orcamento, Faturamento)
-SELECT `name`, `year`, rating, certificate, run_time, tagline, budget, box_office
-FROM imdb_stage;
-
-INSERT INTO genero (genero)
-SELECT genre
-FROM imdb_stage;
-
-INSERT INTO genero (id_imdb)
-SELECT ID_IMDB
-FROM filmes;
-
-UPDATE genero g
-JOIN imdb_stage i ON g.genero = i.genre
-JOIN filmes f ON f.id_IMDB = g.id_imdb
-SET g.id_imdb = f.id_IMDB;
-
-INSERT INTO profissionais (Elenco, Diretores, Escritores)
-SELECT casts, directors, writers
-FROM imdb_stage;
-
-INSERT INTO profissionais (ID_IMDB)
-SELECT ID_IMDB
-FROM filmes;
-
-INSERT INTO generos (id_imdb)
-SELECT ID_IMDB
-FROM filmes;
-
-select id_imdb from generos;
-
-=======
+CREATE TABLE IF NOT EXISTS `imdb`.`tb_escritores` (
+  `id_escritores` INT NOT NULL AUTO_INCREMENT,
+  `nome_escritores` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`id_escritores`))
 ENGINE = InnoDB;
->>>>>>> 2f3775a1609395ac63ad6dc191711368ef761062
+
+CREATE TABLE IF NOT EXISTS `imdb`.`tb_filme_genero` (
+  `tb_filme_id_filme` INT NOT NULL,
+  `tb_genero_id_genero` INT NOT NULL,
+  PRIMARY KEY (`tb_filme_id_filme`, `tb_genero_id_genero`),
+  INDEX `fk_tb_filme_has_tb_genero_tb_genero1_idx` (`tb_genero_id_genero` ASC) VISIBLE,
+  INDEX `fk_tb_filme_has_tb_genero_tb_filme1_idx` (`tb_filme_id_filme` ASC) VISIBLE,
+  CONSTRAINT `fk_tb_genero_filme`
+    FOREIGN KEY (`tb_filme_id_filme`)
+    REFERENCES `imdb`.`tb_filme` (`id_filme`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_tb_filme_genero`
+    FOREIGN KEY (`tb_genero_id_genero`)
+    REFERENCES `imdb`.`tb_genero` (`id_genero`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+CREATE TABLE IF NOT EXISTS `imdb`.`tb_genero` (
+  `id_genero` INT NOT NULL AUTO_INCREMENT,
+  `nome_genero` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`id_genero`))
+ENGINE = InnoDB;
+
+CREATE TABLE IF NOT EXISTS `imdb`.`tb_filme_elenco` (
+  `tb_filme_id_filme` INT NOT NULL,
+  `tb_elenco_id_elenco` INT NOT NULL,
+  PRIMARY KEY (`tb_filme_id_filme`, `tb_elenco_id_elenco`),
+  INDEX `fk_tb_filme_has_tb_elenco_tb_elenco1_idx` (`tb_elenco_id_elenco` ASC) VISIBLE,
+  INDEX `fk_tb_filme_has_tb_elenco_tb_filme1_idx` (`tb_filme_id_filme` ASC) VISIBLE,
+  CONSTRAINT `fk_tb_elenco_filme`
+    FOREIGN KEY (`tb_filme_id_filme`)
+    REFERENCES `imdb`.`tb_filme` (`id_filme`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_tb_filme_elenco`
+    FOREIGN KEY (`tb_elenco_id_elenco`)
+    REFERENCES `imdb`.`tb_elenco` (`id_elenco`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+CREATE TABLE IF NOT EXISTS `imdb`.`tb_elenco` (
+  `id_elenco` INT NOT NULL AUTO_INCREMENT,
+  `nome_elenco` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`id_elenco`))
+ENGINE = InnoDB;
+
+CREATE TABLE IF NOT EXISTS `imdb`.`tb_filme_diretor` (
+  `id_filme` INT NOT NULL,
+  `id_diretor` INT NOT NULL,
+  PRIMARY KEY (`id_filme`, `id_diretor`),
+  INDEX `fk_diretor_filme_diretor_idx` (`id_diretor` ASC) VISIBLE,
+  CONSTRAINT `fk_filme_filme_diretor`
+    FOREIGN KEY (`id_filme`)
+    REFERENCES `imdb`.`tb_filme` (`id_filme`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_diretor_filme_diretor`
+    FOREIGN KEY (`id_diretor`)
+    REFERENCES `imdb`.`tb_diretor` (`id_diretor`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+CREATE TABLE IF NOT EXISTS `imdb`.`tb_diretor` (
+  `id_diretor` INT NOT NULL AUTO_INCREMENT,
+  `nome_diretor` VARCHAR(150) NOT NULL,
+  PRIMARY KEY (`id_diretor`))
+ENGINE = InnoDB;
+
+insert into tb_filme (nome_titulo_filme, ano_lancamento_filme, indicado_posicao_ranking_filme, classificacao_indicativa, duracao, orcamento, bilheteria, slogan) 
+select `name`, `year`, `rank`, certificate, run_time, budget, box_office, tagline  from imdb_stage;
+
+select directors from imdb_stage;
