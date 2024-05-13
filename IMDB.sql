@@ -1,6 +1,6 @@
-use imdb;
+create database IMDB;
 
-select * from tb_filme;
+use IMDB;
 
 CREATE TABLE IF NOT EXISTS `imdb`.`tb_filme` (
   `id_filme` INT NOT NULL AUTO_INCREMENT,
@@ -13,6 +13,12 @@ CREATE TABLE IF NOT EXISTS `imdb`.`tb_filme` (
   `bilheteria` VARCHAR(45) NOT NULL,
   `slogan` VARCHAR(320) NOT NULL,
   PRIMARY KEY (`id_filme`))
+ENGINE = InnoDB;
+
+CREATE TABLE IF NOT EXISTS `imdb`.`tb_escritores` (
+  `id_escritores` INT NOT NULL AUTO_INCREMENT,
+  `nome_escritores` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`id_escritores`))
 ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS `imdb`.`tb_filme_escritores` (
@@ -33,10 +39,10 @@ CREATE TABLE IF NOT EXISTS `imdb`.`tb_filme_escritores` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
-CREATE TABLE IF NOT EXISTS `imdb`.`tb_escritores` (
-  `id_escritores` INT NOT NULL AUTO_INCREMENT,
-  `nome_escritores` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`id_escritores`))
+CREATE TABLE IF NOT EXISTS `imdb`.`tb_genero` (
+  `id_genero` INT NOT NULL AUTO_INCREMENT,
+  `nome_genero` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`id_genero`))
 ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS `imdb`.`tb_filme_genero` (
@@ -57,10 +63,10 @@ CREATE TABLE IF NOT EXISTS `imdb`.`tb_filme_genero` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
-CREATE TABLE IF NOT EXISTS `imdb`.`tb_genero` (
-  `id_genero` INT NOT NULL AUTO_INCREMENT,
-  `nome_genero` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`id_genero`))
+CREATE TABLE IF NOT EXISTS `imdb`.`tb_elenco` (
+  `id_elenco` INT NOT NULL AUTO_INCREMENT,
+  `nome_elenco` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`id_elenco`))
 ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS `imdb`.`tb_filme_elenco` (
@@ -81,10 +87,10 @@ CREATE TABLE IF NOT EXISTS `imdb`.`tb_filme_elenco` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
-CREATE TABLE IF NOT EXISTS `imdb`.`tb_elenco` (
-  `id_elenco` INT NOT NULL AUTO_INCREMENT,
-  `nome_elenco` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`id_elenco`))
+CREATE TABLE IF NOT EXISTS `imdb`.`tb_diretor` (
+  `id_diretor` INT NOT NULL AUTO_INCREMENT,
+  `nome_diretor` VARCHAR(150) NOT NULL,
+  PRIMARY KEY (`id_diretor`))
 ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS `imdb`.`tb_filme_diretor` (
@@ -104,13 +110,5 @@ CREATE TABLE IF NOT EXISTS `imdb`.`tb_filme_diretor` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
-CREATE TABLE IF NOT EXISTS `imdb`.`tb_diretor` (
-  `id_diretor` INT NOT NULL AUTO_INCREMENT,
-  `nome_diretor` VARCHAR(150) NOT NULL,
-  PRIMARY KEY (`id_diretor`))
-ENGINE = InnoDB;
-
 insert into tb_filme (nome_titulo_filme, ano_lancamento_filme, indicado_posicao_ranking_filme, classificacao_indicativa, duracao, orcamento, bilheteria, slogan) 
 select `name`, `year`, `rank`, certificate, run_time, budget, box_office, tagline  from imdb_stage;
-
-select directors from imdb_stage;
