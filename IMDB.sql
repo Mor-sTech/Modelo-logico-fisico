@@ -1,5 +1,3 @@
-create database IMDB;
-
 use IMDB;
 
 CREATE TABLE IF NOT EXISTS `imdb`.`tb_filme` (
@@ -17,7 +15,7 @@ ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS `imdb`.`tb_escritores` (
   `id_escritores` INT NOT NULL AUTO_INCREMENT,
-  `nome_escritores` VARCHAR(45) NOT NULL,
+  `nome_escritores` VARCHAR(60) NOT NULL,
   PRIMARY KEY (`id_escritores`))
 ENGINE = InnoDB;
 
@@ -65,7 +63,7 @@ ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS `imdb`.`tb_elenco` (
   `id_elenco` INT NOT NULL AUTO_INCREMENT,
-  `nome_elenco` VARCHAR(45) NOT NULL,
+  `nome_elenco` VARCHAR(350) NOT NULL,
   PRIMARY KEY (`id_elenco`))
 ENGINE = InnoDB;
 
@@ -112,3 +110,16 @@ ENGINE = InnoDB;
 
 insert into tb_filme (nome_titulo_filme, ano_lancamento_filme, indicado_posicao_ranking_filme, classificacao_indicativa, duracao, orcamento, bilheteria, slogan) 
 select `name`, `year`, `rank`, certificate, run_time, budget, box_office, tagline  from imdb_stage;
+select  * from tb_filme;
+
+insert into tb_genero(nome_genero) select genre from imdb_stage;
+select  * from tb_genero;
+
+insert into tb_escritores(nome_escritores) select writers from imdb_stage;
+select  * from tb_escritores;
+
+insert into tb_diretor(nome_diretor) select directors from imdb_stage;
+select  * from tb_diretor;
+
+insert into tb_elenco(nome_elenco) select casts from imdb_stage;
+select  * from tb_elenco;
