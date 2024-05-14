@@ -2,8 +2,7 @@
 ## Mors'Tech
 
 ## Seções:
-- [Resumo](#Resumo)
-- [Destrinchando o código](#Destrinchando-o-código---Passo-a-Passo)
+- [Resumo](#resumo)
 - [Tecnologias utilizadas](#tecnologias-utilizadas)
 - [Equipe](#equipe)
 
@@ -18,7 +17,7 @@
 * MYSQL Workbench
 
 
-- ## Equipe
+## Equipe
 
 * Jessica Nascimento Pessoa da Silva - 01717533
 * João Guilherme Caetano dos Santos - 01481382
